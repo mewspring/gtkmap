@@ -29,8 +29,8 @@ type Map struct {
 	*gtk.Widget
 }
 
-// NewMap returns a new Map. It defaults to showing tile representations from
-// http://www.openstreetmap.org.
+// NewMap returns a new Map which uses tile representations from OpenStreetMap
+// by default. Use NewMapWithSource to use a custom source.
 func NewMap() (m *Map) {
 	m = &Map{
 		Widget: gtk.WidgetFromNative(unsafe.Pointer(C.osm_gps_map_new())),
@@ -89,17 +89,18 @@ const (
 )
 
 // SetZoom sets the zoom level of the map. It returns the new zoom level, which
-// may differ if zoom was below MinZoom or above MaxZoom.
+// may differ if zoom was below the min or above the max zoom level of the
+// current source.
 func (m *Map) SetZoom(zoom int) int {
 	return int(C.osm_gps_map_set_zoom(m.n(), C.int(zoom)))
 }
 
-// ZoomIn increases the zoom level by one.
+// ZoomIn increases the zoom level by one. It returns the new zoom level.
 func (m *Map) ZoomIn() int {
 	return int(C.osm_gps_map_zoom_in(m.n()))
 }
 
-// ZoomOut decreases the zoom level by one.
+// ZoomOut decreases the zoom level by one. It returns the new zoom level.
 func (m *Map) ZoomOut() int {
 	return int(C.osm_gps_map_zoom_out(m.n()))
 }
