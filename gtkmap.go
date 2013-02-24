@@ -29,7 +29,7 @@ type Map struct {
 	*gtk.Widget
 }
 
-// NewMap returns a new Map. It defaults to showing data from
+// NewMap returns a new Map. It defaults to showing tile representations from
 // http://www.openstreetmap.org.
 func NewMap() (m *Map) {
 	m = &Map{
@@ -63,6 +63,7 @@ const (
 	SourceOSMCTrails            Source = C.OSM_GPS_MAP_SOURCE_OSMC_TRAILS
 )
 
+// NewMap returns a new Map which uses tile representations from source.
 func NewMapWithSource(source Source) (m *Map) {
 	m = &Map{
 		Widget: gtk.WidgetFromNative(unsafe.Pointer(C.newMapWithSource(C.int(source)))),
@@ -80,7 +81,8 @@ func (m *Map) SetCenter(lat, long float64) {
 	C.osm_gps_map_set_center(m.n(), C.float(lat), C.float(long))
 }
 
-// Min and max zoom levels for OSM. At zoom level 1 the world is 512x512 pixels.
+// Min and max zoom levels for OpenStreetMap. At zoom level 1 the world is
+// 512x512 pixels.
 const (
 	MinZoomOSM = 1
 	MaxZoomOSM = 18
