@@ -18,19 +18,28 @@ Documentation provided by GoDoc.
 Examples
 --------
 
-Simple example which creates a new GTK window with a map widget and center the
-map around Iceland.
+mapview is a simple example which creates a new GTK window with a map widget and
+center the map around Iceland.
 
     go get github.com/mewmew/gtkmap/examples/mapview
 
 ![Screenshot - OpenStreetMap](https://github.com/mewmew/gtkmap/blob/master/examples/mapview/mapview.png?raw=true)
 
-This example uses Google Maps as source for the map tiles (default is
-OpenStreetMap).
+The gmapview example uses Google Maps as source for the map tiles (the default
+is OpenStreetMap).
 
     go get github.com/mewmew/gtkmap/examples/gmapview
 
 ![Screenshot - Google Maps](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gmapview.png?raw=true)
+
+The gpsview example can parse image GPS coordinates and plot them on a map.
+Command line flags control the tile representation source and map zoom level.
+
+    go get github.com/mewmew/gtkmap/examples/gpsview
+
+![Screenshot - Ha Long Bay](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gpsview1.png?raw=true)
+
+![Screenshot - Angkor Wat](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gpsview2.png?raw=true)
 
 public domain
 -------------
