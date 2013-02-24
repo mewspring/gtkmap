@@ -19,7 +19,7 @@ Examples
 --------
 
 mapview is a simple example which creates a new GTK window with a map widget and
-center the map around Iceland.
+center the map on Iceland.
 
     go get github.com/mewmew/gtkmap/examples/mapview
 
@@ -37,9 +37,9 @@ Command line flags control the tile representation source and map zoom level.
 
     go get github.com/mewmew/gtkmap/examples/gpsview
 
-![Screenshot - Ha Long Bay](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gpsview1.png?raw=true)
+![Screenshot - Ha Long Bay](https://github.com/mewmew/gtkmap/blob/master/examples/gpsview/gpsview1.png?raw=true)
 
-![Screenshot - Angkor Wat](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gpsview2.png?raw=true)
+![Screenshot - Angkor Wat](https://github.com/mewmew/gtkmap/blob/master/examples/gpsview/gpsview2.png?raw=true)
 
 public domain
 -------------

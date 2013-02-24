@@ -66,13 +66,13 @@ func NewMapWithSource(source Source) (m *Map, err error) {
 	return m, nil
 }
 
-// SetCenter centers the map around the provided longitude and latitude.
+// SetCenter centers the map on the provided longitude and latitude.
 func (m *Map) SetCenter(lat, long float64) {
 	C.osm_gps_map_set_center(n(m), C.float(lat), C.float(long))
 }
 
-// SetCenterAndZoom centers the map around the provided longitude and latitude
-// with the provided zoom level.
+// SetCenterAndZoom centers the map on the provided longitude and latitude with
+// the provided zoom level.
 func (m *Map) SetCenterAndZoom(lat, long float64, zoom int) {
 	C.osm_gps_map_set_center_and_zoom(n(m), C.float(lat), C.float(long), C.int(zoom))
 }
