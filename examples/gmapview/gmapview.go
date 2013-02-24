@@ -1,5 +1,6 @@
 package main
 
+import "fmt"
 import "os"
 
 import "github.com/mattn/go-gtk/gtk"
@@ -13,7 +14,14 @@ func main() {
 	win.Connect("destroy", gtk.MainQuit)
 
 	// Create a map widget which uses Google Maps as source for the map tiles.
-	m := gtkmap.NewMapWithSource(gtkmap.SourceGoogleMaps)
+	source := gtkmap.SourceGoogleMaps
+	m, err := gtkmap.NewMapWithSource(source)
+	if err != nil {
+		// Fall back to using OpenStreetMap if Google Maps could not be used as
+		// source.
+		m = gtkmap.NewMap()
+	}
+	fmt.Println("Map tile representations from:", m.Source())
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
 
