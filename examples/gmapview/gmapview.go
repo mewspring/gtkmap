@@ -25,11 +25,11 @@ func main() {
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
 
-	// Center the map on Guangzhou.
-	m.SetCenter(23.110262, 113.319374)
-
-	// Set zoom level.
-	m.SetZoom(6)
+	// Center the map on Guangzhou and set zoom level.
+	lat := 23.110262
+	long := 113.319374
+	zoom := 6
+	m.SetCenterAndZoom(lat, long, zoom)
 
 	win.ShowAll()
 	gtk.Main()
