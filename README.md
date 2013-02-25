@@ -15,6 +15,13 @@ Documentation provided by GoDoc.
 
 [gtkmap]: http://godoc.org/github.com/mewmew/gtkmap
 
+Installation
+------------
+
+Run the following command after installing the [osm-gps-map] dependency:
+
+	$ go get github.com/mewmew/gtkmap
+
 Examples
 --------
 
