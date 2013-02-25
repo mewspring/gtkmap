@@ -66,13 +66,14 @@ func NewMapWithSource(source Source) (m *Map, err error) {
 	return m, nil
 }
 
-// SetCenter centers the map on the provided longitude and latitude.
+// SetCenter centers the map on the provided longitude and latitude, which are
+// represented in degrees.
 func (m *Map) SetCenter(lat, long float64) {
 	C.osm_gps_map_set_center(n(m), C.float(lat), C.float(long))
 }
 
 // SetCenterAndZoom centers the map on the provided longitude and latitude with
-// the provided zoom level.
+// the provided zoom level. Latitude and longitude are represented in degrees.
 func (m *Map) SetCenterAndZoom(lat, long float64, zoom int) {
 	C.osm_gps_map_set_center_and_zoom(n(m), C.float(lat), C.float(long), C.int(zoom))
 }
@@ -95,7 +96,7 @@ func (m *Map) ZoomOut() int {
 }
 
 // AddGPS adds a GPS marker to the map with the provided latitude, longitude and
-// heading.
+// heading. Latitude and longitude are represented in degrees.
 func (m *Map) AddGPS(lat, long, heading float64) {
 	C.osm_gps_map_gps_add(n(m), C.float(lat), C.float(long), C.float(heading))
 }
@@ -108,6 +109,35 @@ func (m *Map) Scroll(dx, dy int) {
 // Scale returns the scale at the center of the map, in meters/pixel.
 func (m *Map) Scale() float64 {
 	return float64(C.osm_gps_map_get_scale(n(m)))
+}
+
+// ScreenToCoord converts the provided pixel location on the map into the
+// corresponding coordinate. Latitude and longitude are represented in degrees.
+func (m *Map) ScreenToCoord(x, y int) (lat, long float64) {
+	// Convert from pixel location (x, y) to coordinate (lat, long) in radians.
+	var pt C.OsmGpsMapPoint
+	C.osm_gps_map_convert_screen_to_geographic(n(m), C.gint(x), C.gint(y), &pt)
+	// Convert from coordinate (lat, long) in radians to coordinate (lat, long)
+	// in degrees.
+	var clat C.float
+	var clong C.float
+	C.osm_gps_map_point_get_degrees(&pt, &clat, &clong)
+	return float64(clat), float64(clong)
+}
+
+// CoordToScreen converts the provided coordinate on the map into the
+// corresponding pixel location. Latitude and longitude are represented in
+// degrees.
+func (m *Map) CoordToScreen(lat, long float64) (x, y int) {
+	// Convert from coordinate (lat, long) in degrees to coordinate (lat, long)
+	// in radians.
+	var pt *C.OsmGpsMapPoint
+	pt = C.osm_gps_map_point_new_degrees(C.float(lat), C.float(long))
+	// Convert from coordinate (lat, long) in radians to pixel location (x, y).
+	var cx C.gint
+	var cy C.gint
+	C.osm_gps_map_convert_geographic_to_screen(n(m), pt, &cx, &cy)
+	return int(cx), int(cy)
 }
 
 // Source returns the current source tile repository.
