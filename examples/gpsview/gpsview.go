@@ -91,16 +91,20 @@ func main() {
 	onButtonPress := func(ctx *glib.CallbackContext) {
 		arg := ctx.Args(0)
 		ev := (*gdk.EventButton)(unsafe.Pointer(arg))
-		// Double click
+		// Double click.
 		if ev.Type == int(gdk.BUTTON2_PRESS) {
 			lat, long := m.ScreenToCoord(int(ev.X), int(ev.Y))
-			m.SetCenter(lat, long)
 			switch ev.Button {
 			case 1:
-				// Left click.
+				// Left mouse button.
+				m.SetCenter(lat, long)
 				m.ZoomIn()
+			case 2:
+				// Middle mouse button.
+				m.ClearGPS()
 			case 3:
-				// Right click.
+				// Right mouse button.
+				m.SetCenter(lat, long)
 				m.ZoomOut()
 			}
 		}
