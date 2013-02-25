@@ -5,7 +5,10 @@ import "fmt"
 import "log"
 import "math"
 import "os"
+import "unsafe"
 
+import "github.com/mattn/go-gtk/gdk"
+import "github.com/mattn/go-gtk/glib"
 import "github.com/mattn/go-gtk/gtk"
 import "github.com/mewmew/gtkmap"
 import "github.com/rwcarlsen/goexif/exif"
@@ -59,6 +62,7 @@ func main() {
 		// source.
 		m = gtkmap.NewMap()
 	}
+
 	fmt.Println("Map tile representations from:", m.Source())
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
@@ -82,6 +86,26 @@ func main() {
 
 	// Set zoom level.
 	m.SetZoom(flagZoom)
+
+	// Connect mouse button events.
+	onButtonPress := func(ctx *glib.CallbackContext) {
+		arg := ctx.Args(0)
+		ev := (*gdk.EventButton)(unsafe.Pointer(arg))
+		// Double click
+		if ev.Type == int(gdk.BUTTON2_PRESS) {
+			lat, long := m.ScreenToCoord(int(ev.X), int(ev.Y))
+			m.SetCenter(lat, long)
+			switch ev.Button {
+			case 1:
+				// Left click.
+				m.ZoomIn()
+			case 3:
+				// Right click.
+				m.ZoomOut()
+			}
+		}
+	}
+	m.Widget.Connect("button-press-event", onButtonPress)
 
 	win.ShowAll()
 	gtk.Main()
