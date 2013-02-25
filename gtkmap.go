@@ -101,6 +101,11 @@ func (m *Map) AddGPS(lat, long, heading float64) {
 	C.osm_gps_map_gps_add(n(m), C.float(lat), C.float(long), C.float(heading))
 }
 
+// ClearGPS clears the lines between all GPS markers.
+func (m *Map) ClearGPS() {
+	C.osm_gps_map_gps_clear(n(m))
+}
+
 // Scroll scrolls the map by dx, dy pixels (positive north, east).
 func (m *Map) Scroll(dx, dy int) {
 	C.osm_gps_map_scroll(n(m), C.gint(dx), C.gint(dy))
