@@ -242,7 +242,7 @@ func (m *Map) DownloadQueueCount() int {
 	return int(C.getDownloadQueueCount(w(m)))
 }
 
-// Source returns the current source tile repository.
+// Source returns the current tile source repository.
 func (m *Map) Source() (source Source) {
 	source = Source(C.getSource(w(m)))
 	if source == -1 {
@@ -262,10 +262,10 @@ func w(m *Map) *C.GtkWidget {
 	return (*C.GtkWidget)(unsafe.Pointer(m.Widget.GWidget))
 }
 
-// Source represents the tile repository to use.
+// Source represents the tile source repository to use.
 type Source int
 
-// Source tile repositories.
+// Tile source repositories.
 const (
 	SourceNone    Source = C.OSM_GPS_MAP_SOURCE_NULL
 	SourceDefault Source = SourceOpenStreetMap1
@@ -288,7 +288,7 @@ const (
 	SourceOSMCTrails            Source = C.OSM_GPS_MAP_SOURCE_OSMC_TRAILS
 )
 
-// FriendlyName returns the friendly name of the tile repository source.
+// FriendlyName returns the friendly name of the tile source repository.
 func (source Source) FriendlyName() string {
 	return C.GoString(C.osm_gps_map_source_get_friendly_name(C.OsmGpsMapSource_t(source)))
 }
@@ -322,7 +322,7 @@ func (source Source) MaxZoom() int {
 	return int(C.osm_gps_map_source_get_max_zoom(C.OsmGpsMapSource_t(source)))
 }
 
-// IsValid returns true if the source tile repository is valid for use.
+// IsValid returns true if the tile source repository is valid for use.
 func (source Source) IsValid() bool {
 	if C.osm_gps_map_source_is_valid(C.OsmGpsMapSource_t(source)) == 1 {
 		return true

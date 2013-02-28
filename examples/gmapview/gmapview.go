@@ -21,7 +21,7 @@ func main() {
 		// source.
 		m = gtkmap.NewMap()
 	}
-	fmt.Println("Map tile representations from:", m.Source().FriendlyName())
+	fmt.Println("Tile source repository:", m.Source().FriendlyName())
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
 

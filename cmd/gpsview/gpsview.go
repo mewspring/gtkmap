@@ -14,13 +14,16 @@ import "github.com/mewmew/gtkmap"
 import "github.com/rwcarlsen/goexif/exif"
 import gps "github.com/kurtcc/goexifgps"
 
+// flagCache specifies the cache directory for the map tiles.
+var flagCache string
+
 // flagLat specifies the latitude on which to center the map.
 var flagLat float64
 
 // flagLong specifies the longitude on which to center the map.
 var flagLong float64
 
-// flagSource specifies the tile representation source.
+// flagSource specifies the tile source repository.
 var flagSource = gtkmap.SourceVirtualEarthSatellite
 
 // When flagVerbose is true, enable verbose output.
@@ -32,11 +35,31 @@ var flagZoom int
 func init() {
 	// Cat Ba.
 	coord := gtkmap.Coord(20.793415, 106.99894)
+	flag.StringVar(&flagCache, "cache", string(gtkmap.CacheDefault), `Cache directory ("" represent "$HOME/.cache", "none://" disables cache.).`)
 	flag.Float64Var(&flagLat, "lat", coord.Lat, "Latitude.")
 	flag.Float64Var(&flagLong, "long", coord.Long, "Longitude.")
-	flag.Var(&flagSource, "s", "Tile representation source (1-16).")
+	flag.Var(&flagSource, "s", "Tile source repository (1-16).")
 	flag.BoolVar(&flagVerbose, "v", false, "Verbose.")
 	flag.IntVar(&flagZoom, "z", 11, "Zoom level (1-18).")
+	flag.Usage = usage
+}
+
+/// ### [ todo ] ###
+///    - extract date and sort images before plotting them.
+/// ### [/ todo ] ###
+
+func usage() {
+	fmt.Fprintln(os.Stderr, "gpsview [OPTION]... [IMAGE]...")
+	fmt.Fprintln(os.Stderr, "Parses image GPS coordinates and plots them on a map.")
+	fmt.Fprintln(os.Stderr)
+	fmt.Fprintln(os.Stderr, "Flags:")
+	flag.PrintDefaults()
+	fmt.Fprintln(os.Stderr)
+	fmt.Fprintln(os.Stderr, "Examples:")
+	fmt.Fprintln(os.Stderr, `  Plot all images in the "images/" directory.`)
+	fmt.Fprintln(os.Stderr, "    gpsmap images/*")
+	fmt.Fprintln(os.Stderr, "  Disable cache and use Google Maps as tile source repository.")
+	fmt.Fprintln(os.Stderr, `    gpsmap -cache="none://" -s=7 *`)
 }
 
 func main() {
@@ -60,8 +83,9 @@ func main() {
 	win := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
 	win.Connect("destroy", gtk.MainQuit)
 
-	// Create a map widget which uses flagSource as source for the map tiles.
-	m, err := gtkmap.NewMapOpt(flagSource)
+	// Create a map widget which uses flagSource as tile source repository and
+	// flagCache as cache directory.
+	m, err := gtkmap.NewMapOpt(flagSource, gtkmap.Cache(flagCache))
 	if err != nil {
 		// Fall back to using OpenStreetMap if flagSource could not be used as
 		// source.
@@ -69,7 +93,7 @@ func main() {
 	}
 
 	if flagVerbose {
-		fmt.Println("Map tile representations from:", m.Source().FriendlyName())
+		fmt.Println("Tile source repository:", m.Source().FriendlyName())
 	}
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
