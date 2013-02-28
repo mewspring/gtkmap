@@ -45,6 +45,7 @@ package gtkmap
 // }
 import "C"
 import "fmt"
+import "strconv"
 import "unsafe"
 
 import "github.com/mattn/go-gtk/gtk"
@@ -287,8 +288,27 @@ const (
 	SourceOSMCTrails            Source = C.OSM_GPS_MAP_SOURCE_OSMC_TRAILS
 )
 
-func (source Source) String() string {
+// FriendlyName returns the friendly name of the tile repository source.
+func (source Source) FriendlyName() string {
 	return C.GoString(C.osm_gps_map_source_get_friendly_name(C.OsmGpsMapSource_t(source)))
+}
+
+func (source Source) String() string {
+	return strconv.Itoa(int(source))
+}
+
+// Set sets the source based on the provided flag value. Source satisfies the
+// flag.Value interface.
+func (source *Source) Set(s string) (err error) {
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		return err
+	}
+	if n < 1 || n > 16 {
+		return fmt.Errorf("Source.Set: invalid source (%d); valid range is 1-16.", n)
+	}
+	*source = Source(n)
+	return nil
 }
 
 // MinZoom returns the minimum zoom level of source. At zoom level 1 the world
