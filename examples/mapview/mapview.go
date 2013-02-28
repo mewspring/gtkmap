@@ -18,7 +18,7 @@ func main() {
 	win.Add(m)
 
 	// Center the map on Iceland.
-	m.SetCenter(64.963051, -19.020835)
+	m.SetCenter(gtkmap.Coord(64.963051, -19.020835))
 
 	// Set zoom level.
 	m.SetZoom(6)

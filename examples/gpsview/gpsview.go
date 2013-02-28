@@ -21,32 +21,37 @@ var flagLat float64
 var flagLong float64
 
 // flagSource specifies the tile representation source.
-var flagSource int
+var flagSource = gtkmap.SourceVirtualEarthSatellite
+
+// When flagVerbose is true, enable verbose output.
+var flagVerbose bool
 
 // flagZoom specifies the zoom level of the map.
 var flagZoom int
 
 func init() {
 	// Cat Ba.
-	lat := 20.793415
-	long := 106.99894
-	flag.Float64Var(&flagLat, "lat", lat, "Latitude.")
-	flag.Float64Var(&flagLong, "long", long, "Longitude.")
-	flag.IntVar(&flagSource, "s", int(gtkmap.SourceVirtualEarthSatellite), "Tile representation source (1-16).")
-	flag.IntVar(&flagZoom, "z", 11, "Zoom level (1-20).")
+	coord := gtkmap.Coord(20.793415, 106.99894)
+	flag.Float64Var(&flagLat, "lat", coord.Lat, "Latitude.")
+	flag.Float64Var(&flagLong, "long", coord.Long, "Longitude.")
+	flag.Var(&flagSource, "s", "Tile representation source (1-16).")
+	flag.BoolVar(&flagVerbose, "v", false, "Verbose.")
+	flag.IntVar(&flagZoom, "z", 11, "Zoom level (1-18).")
 }
 
 func main() {
 	// Parse image GPS coordinates.
 	flag.Parse()
-	var coords []*gps.GeoFields
+	var geoCoords []*gps.GeoFields
 	for _, imgPath := range flag.Args() {
-		coord, err := getCoordinate(imgPath)
+		geoCoord, err := getCoordinate(imgPath)
 		if err != nil {
-			log.Println(err)
+			if flagVerbose {
+				log.Println(err)
+			}
 			continue
 		}
-		coords = append(coords, coord)
+		geoCoords = append(geoCoords, geoCoord)
 	}
 
 	gtk.Init(&os.Args)
@@ -56,31 +61,45 @@ func main() {
 	win.Connect("destroy", gtk.MainQuit)
 
 	// Create a map widget which uses flagSource as source for the map tiles.
-	m, err := gtkmap.NewMapWithSource(gtkmap.Source(flagSource))
+	m, err := gtkmap.NewMapOpt(flagSource)
 	if err != nil {
-		// Fall back to using OpenStreetMap if Google Maps could not be used as
+		// Fall back to using OpenStreetMap if flagSource could not be used as
 		// source.
 		m = gtkmap.NewMap()
 	}
 
-	fmt.Println("Map tile representations from:", m.Source())
+	if flagVerbose {
+		fmt.Println("Map tile representations from:", m.Source().FriendlyName())
+	}
 	m.SetSizeRequest(640, 480)
 	win.Add(m)
 
-	if len(coords) == 0 {
+	if len(geoCoords) == 0 {
 		// Center on the provided latitude and longitude if no image GPS
 		// coordinates were found .
-		fmt.Println("Center on latitude and longitude from flags.")
-		m.SetCenter(flagLat, flagLong)
+		coord := gtkmap.Coord(flagLat, flagLong)
+		if flagVerbose {
+			fmt.Printf("Center on coordinate %v provided from flags.\n", coord)
+		}
+		m.SetCenter(coord)
 	} else {
-		for _, coord := range coords {
+		for i, geoCoord := range geoCoords {
 			// Place GPS coordinates on the map.
-			lat := float64(coord.Lat)
-			long := float64(coord.Long)
-			m.AddGPS(lat, long, 0)
+			lat := float64(geoCoord.Lat)
+			long := float64(geoCoord.Long)
+			coord := gtkmap.Coord(lat, long)
+			m.AddGPS(coord, 0)
+			if flagVerbose {
+				fmt.Printf("Add GPS marker at coordinate %v.\n", coord)
+			}
 
-			// Center on the last GPS coordinate.
-			m.SetCenter(lat, long)
+			if i == len(geoCoords)-1 {
+				// Center on the last GPS coordinate.
+				m.SetCenter(coord)
+				if flagVerbose {
+					fmt.Printf("Center on coordinate %v provided from image.\n", coord)
+				}
+			}
 		}
 	}
 
@@ -91,20 +110,37 @@ func main() {
 	onButtonPress := func(ctx *glib.CallbackContext) {
 		arg := ctx.Args(0)
 		ev := (*gdk.EventButton)(unsafe.Pointer(arg))
-		// Double click.
-		if ev.Type == int(gdk.BUTTON2_PRESS) {
-			lat, long := m.ScreenToCoord(int(ev.X), int(ev.Y))
+		coord := m.ScreenToCoord(int(ev.X), int(ev.Y))
+
+		// Single-click.
+		if ev.Type == int(gdk.BUTTON_PRESS) {
 			switch ev.Button {
 			case 1:
-				// Left mouse button.
-				m.SetCenter(lat, long)
-				m.ZoomIn()
+				// left click
+				switch {
+				case ev.State&uint32(gdk.SHIFT_MASK) != 0:
+					// [shift] + [left mouse button]
+					m.AddGPS(coord, 0)
+				case ev.State&uint32(gdk.CONTROL_MASK) != 0:
+					// [ctrl] + [left mouse button]
+					m.ClearGPS()
+				}
 			case 2:
-				// Middle mouse button.
-				m.ClearGPS()
+				// middle click
+				fmt.Println("coordinate:", coord)
+			}
+		}
+
+		// Double-click.
+		if ev.Type == int(gdk.BUTTON2_PRESS) {
+			switch ev.Button {
+			case 1:
+				// left double-click
+				m.SetCenter(coord)
+				m.ZoomIn()
 			case 3:
-				// Right mouse button.
-				m.SetCenter(lat, long)
+				// right double-click
+				m.SetCenter(coord)
 				m.ZoomOut()
 			}
 		}
@@ -116,7 +152,7 @@ func main() {
 }
 
 // getCoordinate returns the GPS coordinate of an image. The information is
-// stored in the EXIF data of the image.
+// stored in the image's EXIF data.
 func getCoordinate(imgPath string) (coord *gps.GeoFields, err error) {
 	fr, err := os.Open(imgPath)
 	if err != nil {
@@ -125,14 +161,14 @@ func getCoordinate(imgPath string) (coord *gps.GeoFields, err error) {
 	defer fr.Close()
 	x, err := exif.Decode(fr)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("exif.Decode: failed for %q; %s.", imgPath, err.Error())
 	}
 	coord, err = gps.GetGPS(x)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("gps.GetGPS: failed for %q; %s.", imgPath, err.Error())
 	}
 	if math.IsNaN(float64(coord.Lat)) || math.IsNaN(float64(coord.Long)) {
-		return nil, fmt.Errorf("getCoordinate: unable to locate lat and long in EXIF data for %q.", imgPath)
+		return nil, fmt.Errorf("getCoordinate: failed for %q; unable to locate lat and long in EXIF data.", imgPath)
 	}
 	return coord, nil
 }
