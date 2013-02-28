@@ -20,7 +20,7 @@ Installation
 
 Install the [osm-gps-map] dependency and run:
 
-	$ go get github.com/mewmew/gtkmap
+	go get github.com/mewmew/gtkmap
 
 Examples
 --------
@@ -91,13 +91,13 @@ Examples
 
 1. Plot all images in the "images/" directory.
 
-		gpsmap images/*
+		gpsview images/*
 
 ![Screenshot - Ha Long Bay](https://github.com/mewmew/gtkmap/blob/master/cmd/gpsview/gpsview1.png?raw=true)
 
-2. Disable cache and use Google Maps as tile source repository.
+2. Disable cache, use Google Maps as source and set zoom level to 16.
 
-		gpsmap -cache="none://" -s=7 *
+		gpsview -cache="none://" -s=6 -z=16 *
 
 ![Screenshot - Angkor Wat](https://github.com/mewmew/gtkmap/blob/master/cmd/gpsview/gpsview2.png?raw=true)
 

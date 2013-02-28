@@ -58,8 +58,8 @@ func usage() {
 	fmt.Fprintln(os.Stderr, "Examples:")
 	fmt.Fprintln(os.Stderr, `  Plot all images in the "images/" directory.`)
 	fmt.Fprintln(os.Stderr, "    gpsmap images/*")
-	fmt.Fprintln(os.Stderr, "  Disable cache and use Google Maps as tile source repository.")
-	fmt.Fprintln(os.Stderr, `    gpsmap -cache="none://" -s=7 *`)
+	fmt.Fprintln(os.Stderr, "  Disable cache, use Google Maps as source and set zoom level to 16.")
+	fmt.Fprintln(os.Stderr, `    gpsmap -cache="none://" -s=6 -z=16 *`)
 }
 
 func main() {
@@ -143,10 +143,10 @@ func main() {
 				// left click
 				switch {
 				case ev.State&uint32(gdk.SHIFT_MASK) != 0:
-					// [shift] + [left mouse button]
+					// [shift] + left click
 					m.AddGPS(coord, 0)
 				case ev.State&uint32(gdk.CONTROL_MASK) != 0:
-					// [ctrl] + [left mouse button]
+					// [ctrl] + left click
 					m.ClearGPS()
 				}
 			case 2:
