@@ -11,7 +11,7 @@ Documentation
 
 Documentation provided by GoDoc.
 
-   - [gtkmap][]
+   - [gtkmap][]: provides a GTK map widget with support for GPS coordinates.
 
 [gtkmap]: http://godoc.org/github.com/mewmew/gtkmap
 
