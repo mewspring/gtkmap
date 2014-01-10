@@ -18,7 +18,7 @@ Documentation provided by GoDoc.
 Installation
 ------------
 
-Install the [osm-gps-map] dependency and run:
+Install the [osm-gps-map][] dependency and run:
 
 	go get github.com/mewmew/gtkmap
 
