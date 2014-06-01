@@ -1,18 +1,20 @@
 package main
 
-import "flag"
-import "fmt"
-import "log"
-import "math"
-import "os"
-import "unsafe"
+import (
+	"flag"
+	"fmt"
+	"log"
+	"math"
+	"os"
+	"unsafe"
 
-import "github.com/mattn/go-gtk/gdk"
-import "github.com/mattn/go-gtk/glib"
-import "github.com/mattn/go-gtk/gtk"
-import "github.com/mewmew/gtkmap"
-import "github.com/rwcarlsen/goexif/exif"
-import gps "github.com/kurtcc/goexifgps"
+	gps "github.com/kurtcoke/goexifgps"
+	"github.com/mattn/go-gtk/gdk"
+	"github.com/mattn/go-gtk/glib"
+	"github.com/mattn/go-gtk/gtk"
+	"github.com/mewmew/gtkmap"
+	"github.com/rwcarlsen/goexif/exif"
+)
 
 // flagCache specifies the cache directory for the map tiles.
 var flagCache string
