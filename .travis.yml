@@ -14,7 +14,7 @@ before_install:
   - go get github.com/golang/lint/golint
   - sudo apt-get -qq update
   - sudo apt-get install -y libosmgpsmap-dev
-  - dpkg-query -L libosmgpsmap-dev
+  - sudo ln -s /usr/lib/pkgconfig/osmgpsmap.pc /usr/lib/pkgconfig/osmgpsmap-1.0.pc
 
 install:
   - go get ./...
