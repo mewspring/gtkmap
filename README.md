@@ -1,7 +1,7 @@
 # gtkmap
 
-[![Build Status](https://travis-ci.org/mewmew/playground.svg?branch=master)](https://travis-ci.org/mewmew/playground)
-[![GoDoc](https://godoc.org/github.com/mewmew/playground?status.svg)](https://godoc.org/github.com/mewmew/playground)
+[![Build Status](https://travis-ci.org/mewmew/gtkmap.svg?branch=master)](https://travis-ci.org/mewmew/gtkmap)
+[![GoDoc](https://godoc.org/github.com/mewmew/gtkmap?status.svg)](https://godoc.org/github.com/mewmew/gtkmap)
 
 This package provides a GTK map widget with support for GPS coordinates. It uses [osm-gps-map] as a backend.
 
