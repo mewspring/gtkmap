@@ -132,12 +132,12 @@ func NewMapOpt(opts ...interface{}) (m *Map, err error) {
 		case Source:
 			source = v
 			if !source.IsValid() {
-				return nil, fmt.Errorf("gtkmap.NewMapOpt: invalid source (%q).", source)
+				return nil, fmt.Errorf("gtkmap.NewMapOpt: invalid source (%q)", source)
 			}
 		case Cache:
 			cache = v
 		default:
-			return nil, fmt.Errorf("gtkmap.NewMapOpt: option type (%T) not yet implemented.", v)
+			return nil, fmt.Errorf("gtkmap.NewMapOpt: option type (%T) not yet implemented", v)
 		}
 	}
 

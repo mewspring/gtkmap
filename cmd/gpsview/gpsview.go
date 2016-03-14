@@ -221,14 +221,14 @@ func getCoordinate(imgPath string) (coord *gps.GeoFields, err error) {
 	defer fr.Close()
 	x, err := exif.Decode(fr)
 	if err != nil {
-		return nil, fmt.Errorf("exif.Decode: failed for %q; %s.", imgPath, err.Error())
+		return nil, fmt.Errorf("exif.Decode: failed for %q; %s", imgPath, err.Error())
 	}
 	coord, err = gps.GetGPS(x)
 	if err != nil {
-		return nil, fmt.Errorf("gps.GetGPS: failed for %q; %s.", imgPath, err.Error())
+		return nil, fmt.Errorf("gps.GetGPS: failed for %q; %s", imgPath, err.Error())
 	}
 	if math.IsNaN(float64(coord.Lat)) || math.IsNaN(float64(coord.Long)) {
-		return nil, fmt.Errorf("getCoordinate: failed for %q; unable to locate lat and long in EXIF data.", imgPath)
+		return nil, fmt.Errorf("getCoordinate: failed for %q; unable to locate lat and long in EXIF data", imgPath)
 	}
 	return coord, nil
 }
