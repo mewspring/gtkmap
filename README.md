@@ -1,109 +1,113 @@
-gtkmap
-======
+# gtkmap
 
-This package provides a GTK map widget with support for GPS coordinates. It uses
-[osm-gps-map][] as a backend.
+[![Build Status](https://travis-ci.org/mewmew/playground.svg?branch=master)](https://travis-ci.org/mewmew/playground)
+[![GoDoc](https://godoc.org/github.com/mewmew/playground?status.svg)](https://godoc.org/github.com/mewmew/playground)
 
-[osm-gps-map]: http://nzjrs.github.com/osm-gps-map/
+This package provides a GTK map widget with support for GPS coordinates. It uses [osm-gps-map] as a backend.
 
-Documentation
--------------
+[osm-gps-map]: https://nzjrs.github.io/osm-gps-map/
+
+## Documentation
 
 Documentation provided by GoDoc.
 
-   - [gtkmap][]: provides a GTK map widget with support for GPS coordinates.
+   - [gtkmap]: provides a GTK map widget with support for GPS coordinates.
 
-[gtkmap]: http://godoc.org/github.com/mewmew/gtkmap
+[gtkmap]: https://godoc.org/github.com/mewmew/gtkmap
 
-Installation
-------------
+## Installation
 
-Install the [osm-gps-map][] dependency and run:
+Install the [osm-gps-map] dependency and run:
 
-	go get github.com/mewmew/gtkmap
+```
+go get github.com/mewmew/gtkmap
+```
 
-Examples
---------
+## Examples
 
-mapview is a simple example which creates a new GTK window with a map widget and
-center the map on Iceland.
+`mapview` is a simple example which creates a new GTK window with a map widget and center the map on Iceland.
 
-	go get github.com/mewmew/gtkmap/examples/mapview
+```
+go get github.com/mewmew/gtkmap/examples/mapview
+```
 
-![Screenshot - OpenStreetMap](https://github.com/mewmew/gtkmap/blob/master/examples/mapview/mapview.png?raw=true)
+![Screenshot - OpenStreetMap](https://raw.githubusercontent.com/mewmew/gtkmap/master/examples/mapview/mapview.png)
 
-The gmapview example uses Google Maps as source for the map tiles (the default
-is OpenStreetMap).
+The `gmapview` example uses Google Maps as source for the map tiles (the default is OpenStreetMap).
 
-	go get github.com/mewmew/gtkmap/examples/gmapview
+```
+go get github.com/mewmew/gtkmap/examples/gmapview
+```
 
-![Screenshot - Google Maps](https://github.com/mewmew/gtkmap/blob/master/examples/gmapview/gmapview.png?raw=true)
+![Screenshot - Google Maps](https://raw.githubusercontent.com/mewmew/gtkmap/master/examples/gmapview/gmapview.png)
 
-gpsview
-=======
+# gpsview
 
-gpsview parses image GPS coordinates and plots them on a map. The tile source
-repository and cache settings are customizeable.
+`gpsview` parses image GPS coordinates and plots them on a map. The tile source repository and cache settings are customizeable.
 
-Installation
-------------
+## Installation
 
-	go get github.com/mewmew/gtkmap/cmd/gpsview
+```
+go get github.com/mewmew/gtkmap/cmd/gpsview
+```
 
-Usage
------
+## Usage
 
-	gpsview [OPTION]... [IMAGE]...
+```
+gpsview [OPTION]... [IMAGE]...
+```
 
 Flags:
 
-	-cache (default="")
-		Cache directory ("" represent "$HOME/.cache", "none://" disables cache.).
-	-lat (default=20.793415)
-		Latitude.
-	-long (default=106.99894
-		Longitude.
-	-s (default=11)
-		Tile source repository (1-16).
-	-v (default=false
-		Verbose.
-	-z (default=11)
-		Zoom level (1-18).
+```
+-cache (default="")
+	Cache directory ("" represent "$HOME/.cache", "none://" disables cache.).
+-lat (default=20.793415)
+	Latitude.
+-long (default=106.99894
+	Longitude.
+-s (default=11)
+	Tile source repository (1-16).
+-v (default=false
+	Verbose.
+-z (default=11)
+	Zoom level (1-18).
+```
 
 Mouse button events:
 
-	* left double-click
-		Center on mouse cursor and zoom in.
-	* right double-click
-		Center on mouse cursor and zoom out.
+```
+* left double-click
+	Center on mouse cursor and zoom in.
+* right double-click
+	Center on mouse cursor and zoom out.
 
-	* middle click
-		Print coordinate at mouse cursor.
+* middle click
+	Print coordinate at mouse cursor.
 
-	* [shift] + left click
-		Add GPS marker at mouse cursor.
-	* [ctrl] + left click
-		Clear lines between GPS markers.
+* [shift] + left click
+	Add GPS marker at mouse cursor.
+* [ctrl] + left click
+	Clear lines between GPS markers.
+```
 
 
-Examples
---------
+## Examples
 
 1. Plot all images in the "images/" directory.
 
 		gpsview images/*
 
-![Screenshot - Ha Long Bay](https://github.com/mewmew/gtkmap/blob/master/cmd/gpsview/gpsview1.png?raw=true)
+![Screenshot - Ha Long Bay](https://raw.githubusercontent.com/mewmew/gtkmap/master/cmd/gpsview/gpsview1.png)
 
 2. Disable cache, use Google Maps as source and set zoom level to 16.
 
 		gpsview -cache="none://" -s=6 -z=16 *
 
-![Screenshot - Angkor Wat](https://github.com/mewmew/gtkmap/blob/master/cmd/gpsview/gpsview2.png?raw=true)
+![Screenshot - Angkor Wat](https://raw.githubusercontent.com/mewmew/gtkmap/master/cmd/gpsview/gpsview2.png)
 
-public domain
--------------
+## Public domain
 
-This code is hereby released into the *[public domain][]*.
+The source code and any original content of this repository is hereby released into the [public domain].
 
 [public domain]: https://creativecommons.org/publicdomain/zero/1.0/
