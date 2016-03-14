@@ -1,0 +1,26 @@
+language: go
+
+notifications:
+  email: false
+
+env:
+  global:
+    - PATH=$HOME/gopath/bin:$PATH
+
+before_install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get golang.org/x/tools/cmd/goimports
+  - go get golang.org/x/tools/cmd/vet
+  - go get github.com/golang/lint/golint
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libosmgpsmap-1.0-0-dev
+
+install:
+  - go get ./...
+
+before_script:
+  - wget https://gist.github.com/mewmew/379014c9a2e6885e238d/raw/goclean.sh
+  - chmod +x goclean.sh
+
+script:
+  - ./goclean.sh
