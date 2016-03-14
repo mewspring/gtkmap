@@ -2,11 +2,11 @@
 // It uses osm-gps-map as a backend.
 package gtkmap
 
-// #cgo pkg-config: osmgpsmap
+// #cgo pkg-config: osmgpsmap-1.0
 //
 // #include <string.h>
 // #include <gtk/gtk.h>
-// #include <osmgpsmap/osm-gps-map.h>
+// #include <osm-gps-map.h>
 //
 // GtkWidget* newMapCustom(int source, char *cache) {
 //    GtkWidget *m;
@@ -282,9 +282,6 @@ const (
 	SourceVirtualEarth          Source = C.OSM_GPS_MAP_SOURCE_VIRTUAL_EARTH_STREET
 	SourceVirtualEarthSatellite Source = C.OSM_GPS_MAP_SOURCE_VIRTUAL_EARTH_SATELLITE
 	SourceVirtualEarthHybrid    Source = C.OSM_GPS_MAP_SOURCE_VIRTUAL_EARTH_HYBRID
-	SourceYahooMaps             Source = C.OSM_GPS_MAP_SOURCE_YAHOO_STREET
-	SourceYahooSatellite        Source = C.OSM_GPS_MAP_SOURCE_YAHOO_SATELLITE
-	SourceYahooHybrid           Source = C.OSM_GPS_MAP_SOURCE_YAHOO_HYBRID
 	SourceOSMCTrails            Source = C.OSM_GPS_MAP_SOURCE_OSMC_TRAILS
 )
 
