@@ -1,3 +1,37 @@
+// gpsview is a tool which parses image GPS coordinates and plots them on a map.
+// The tile source repository and cache settings are customizeable.
+//
+//
+// Usage:
+//    gpsview [OPTION]... [IMAGE]...
+//
+// Flags:
+//    -cache (default="")
+//       Cache directory ("" represent "$HOME/.cache", "none://" disables cache.).
+//    -lat (default=20.793415)
+//       Latitude.
+//    -long (default=106.99894
+//       Longitude.
+//    -s (default=11)
+//       Tile source repository (1-16).
+//    -v (default=false
+//       Verbose.
+//    -z (default=11)
+//       Zoom level (1-18).
+//
+// Mouse button events:
+//    * left double-click
+//       Center on mouse cursor and zoom in.
+//    * right double-click
+//       Center on mouse cursor and zoom out.
+//
+//    * middle click
+//       Print coordinate at mouse cursor.
+//
+//    * [shift] + left click
+//       Add GPS marker at mouse cursor.
+//    * [ctrl] + left click
+//       Clear lines between GPS markers.
 package main
 
 import (

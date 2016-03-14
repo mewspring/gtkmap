@@ -1,3 +1,5 @@
+// gmapview is a simple example tool which uses Google Maps as source for the
+// map tiles (the default is OpenStreetMap).
 package main
 
 import "fmt"

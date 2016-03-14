@@ -1,3 +1,5 @@
+// mapview is a simple example tool which creates a new GTK window with a map
+// widget and center the map on Iceland.
 package main
 
 import "os"
