@@ -44,11 +44,14 @@ package gtkmap
 //    return source;
 // }
 import "C"
-import "fmt"
-import "strconv"
-import "unsafe"
 
-import "github.com/mattn/go-gtk/gtk"
+import (
+	"fmt"
+	"strconv"
+	"unsafe"
+
+	"github.com/mattn/go-gtk/gtk"
+)
 
 // A Coordinate is a Lat, Long coordinate pair. The latitude and longitude are
 // represented in degrees.

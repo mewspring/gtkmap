@@ -2,10 +2,12 @@
 // widget and center the map on Iceland.
 package main
 
-import "os"
+import (
+	"os"
 
-import "github.com/mattn/go-gtk/gtk"
-import "github.com/mewmew/gtkmap"
+	"github.com/mattn/go-gtk/gtk"
+	"github.com/mewmew/gtkmap"
+)
 
 func main() {
 	gtk.Init(&os.Args)
