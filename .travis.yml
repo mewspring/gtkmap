@@ -16,7 +16,7 @@ before_install:
   - sudo apt-get install -y libosmgpsmap-dev
   - sudo ln -s /usr/lib/pkgconfig/osmgpsmap.pc /usr/lib/pkgconfig/osmgpsmap-1.0.pc
   - dpkg -l
-  - dpkg-query -L libsoup
+  - dpkg-query -L libsoup2.4-1
 
 install:
   - go get ./...
