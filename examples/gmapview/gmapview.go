@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mattn/go-gtk/gtk"
-	"github.com/mewmew/gtkmap"
+	"github.com/zurek87/go-gtk3/gtk3"
+	"github.com/mattkasun/gtkmap"
 )
 
 func main() {
-	gtk.Init(&os.Args)
+	gtk3.Init(&os.Args)
 
 	// Create a window.
-	win := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
-	win.Connect("destroy", gtk.MainQuit)
+	win := gtk3.NewWindow(gtk3.WINDOW_TOPLEVEL)
+	win.Connect("destroy", gtk3.MainQuit)
 
 	// Create a map widget which uses Google Maps as source for the map tiles.
 	source := gtkmap.SourceGoogleMaps
@@ -30,10 +30,10 @@ func main() {
 	win.Add(m)
 
 	// Center the map on Guangzhou and set zoom level.
-	coord := gtkmap.Coord(23.110262, 113.319374)
+	coord := gtkmap.Coord(45.963051, -76.020835)
 	zoom := 14
 	m.SetCenterAndZoom(coord, zoom)
 
 	win.ShowAll()
-	gtk.Main()
+	gtk3.Main()
 }
