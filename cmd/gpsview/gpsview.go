@@ -43,11 +43,11 @@ import (
 	"unsafe"
 
 	gps "github.com/kurtcoke/goexifgps"
-	"github.com/mattn/go-gtk/gdk"
-	"github.com/mattn/go-gtk/glib"
-	"github.com/mattn/go-gtk/gtk"
-	"github.com/mewmew/gtkmap"
+	"github.com/mewspring/gtkmap"
 	"github.com/rwcarlsen/goexif/exif"
+	gdk "github.com/zurek87/go-gtk3/gdk3"
+	"github.com/zurek87/go-gtk3/glib"
+	gtk "github.com/zurek87/go-gtk3/gtk3"
 )
 
 // flagCache specifies the cache directory for the map tiles.
