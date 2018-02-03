@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zurek87/go-gtk3/gtk3"
-	"github.com/mattkasun/gtkmap"
+	"github.com/mewspring/gtkmap"
+	gtk "github.com/zurek87/go-gtk3/gtk3"
 )
 
 func main() {
-	gtk3.Init(&os.Args)
+	gtk.Init(&os.Args)
 
 	// Create a window.
-	win := gtk3.NewWindow(gtk3.WINDOW_TOPLEVEL)
-	win.Connect("destroy", gtk3.MainQuit)
+	win := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
+	win.Connect("destroy", gtk.MainQuit)
 
 	// Create a map widget which uses Google Maps as source for the map tiles.
 	source := gtkmap.SourceGoogleMaps
@@ -35,5 +35,5 @@ func main() {
 	m.SetCenterAndZoom(coord, zoom)
 
 	win.ShowAll()
-	gtk3.Main()
+	gtk.Main()
 }
