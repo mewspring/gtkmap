@@ -5,16 +5,16 @@ package main
 import (
 	"os"
 
-	"github.com/mattn/go-gtk/gtk"
-	"github.com/mewmew/gtkmap"
+	"github.com/zurek87/go-gtk3/gtk3"
+	"github.com/mattkasun/gtkmap"
 )
 
 func main() {
-	gtk.Init(&os.Args)
+	gtk3.Init(&os.Args)
 
 	// Create a window.
-	win := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
-	win.Connect("destroy", gtk.MainQuit)
+	win := gtk3.NewWindow(gtk3.WINDOW_TOPLEVEL)
+	win.Connect("destroy", gtk3.MainQuit)
 
 	// Create a map widget.
 	m := gtkmap.NewMap()
@@ -22,11 +22,11 @@ func main() {
 	win.Add(m)
 
 	// Center the map on Iceland.
-	m.SetCenter(gtkmap.Coord(64.963051, -19.020835))
+	m.SetCenter(gtkmap.Coord(45.963051, -76.020835))
 
 	// Set zoom level.
 	m.SetZoom(6)
 
 	win.ShowAll()
-	gtk.Main()
+	gtk3.Main()
 }

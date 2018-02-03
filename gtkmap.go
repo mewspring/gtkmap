@@ -50,7 +50,7 @@ import (
 	"strconv"
 	"unsafe"
 
-	"github.com/mattn/go-gtk/gtk"
+	"github.com/zurek87/go-gtk3/gtk3"
 )
 
 // A Coordinate is a Lat, Long coordinate pair. The latitude and longitude are
@@ -108,14 +108,14 @@ func (rect Rect) Sub(coord Coordinate) Rect {
 // Map data is downloaded (and cached for offline use) from a number of
 // websites, including http://www.openstreetmap.org.
 type Map struct {
-	*gtk.Widget
+	*gtk3.Widget
 }
 
 // NewMap returns a new Map which uses the default Source and Cache. Use
 // NewMapOpt for control over Source and Cache.
 func NewMap() (m *Map) {
 	m = &Map{
-		Widget: gtk.WidgetFromNative(unsafe.Pointer(C.osm_gps_map_new())),
+		Widget: gtk3.WidgetFromNative(unsafe.Pointer(C.osm_gps_map_new())),
 	}
 	return m
 }
@@ -142,7 +142,7 @@ func NewMapOpt(opts ...interface{}) (m *Map, err error) {
 	}
 
 	m = &Map{
-		Widget: gtk.WidgetFromNative(unsafe.Pointer(C.newMapCustom(C.int(source), C.CString(string(cache))))),
+		Widget: gtk3.WidgetFromNative(unsafe.Pointer(C.newMapCustom(C.int(source), C.CString(string(cache))))),
 	}
 	return m, nil
 }
