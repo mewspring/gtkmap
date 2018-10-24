@@ -11,7 +11,7 @@ before_install:
   - go get golang.org/x/tools/cmd/cover
   - go get golang.org/x/tools/cmd/goimports
   - go get golang.org/x/tools/cmd/vet
-  - go get github.com/golang/lint/golint
+  - go get golang.org/x/lint/golint
   - sudo apt-get -qq update
   - sudo apt-get install -y libosmgpsmap-dev libsoup2.4-dev
   - sudo ln -s /usr/lib/pkgconfig/osmgpsmap.pc /usr/lib/pkgconfig/osmgpsmap-1.0.pc
